@@ -1,45 +1,42 @@
 package com.project.users.dao;
 
 import com.project.users.vo.UsersVO;
+
+import java.util.Scanner;
+
 import com.project.users.vo.PointVO;
 
 public class UsersDAOTest {
 
     public static void main(String[] args) {
-        UsersDAO userDao = new UsersDAO();
-        PointDAO pointDao = new PointDAO();
+    	System.out.println();
+    	Scanner sc = new Scanner(System.in);
 
-        String user_id = "GKAJT";
+    	System.out.print("삭제할 사용자 아이디를 입력하세요: ");
+    	String user_id = sc.nextLine();
 
-        // 사용자 정보 조회
-        UsersVO user = userDao.selectOne(user_id);
-        System.out.println("User: " + user);
+    	UsersDAO usersDAO = new UsersDAO();
+    	UsersVO user = usersDAO.selectOne(user_id);
 
-        // 포인트 적립
-        int purchasedAmount = 10000; // 구매 가격
-        int accumulatedPoints = purchasedAmount / 20; // 5% 적립
-        int result = pointDao.accumulatePoints(user_id, accumulatedPoints);
-        if (result > 0) {
-            System.out.println(accumulatedPoints + " 포인트가 적립되었습니다.");
-        } else {
-            System.out.println("포인트 적립에 실패했습니다.");
-        }
+    	if (user != null) {
+    	    System.out.print("비밀번호를 입력하세요: ");
+    	    String password = sc.nextLine();
+    	    
+    	    if (user.getPassword().equals(password)) {
+    	        int result = usersDAO.delete(user_id);
+    	        
+    	        if (result > 0) {
+    	            System.out.println("회원 정보가 성공적으로 삭제되었습니다.");
+    	        } else {
+    	            System.out.println("회원 정보 삭제에 실패하였습니다.");
+    	        }
+    	    } else {
+    	        System.out.println("비밀번호가 일치하지 않습니다. 회원 정보 삭제를 취소합니다.");
+    	    }
+    	} else {
+    	    System.out.println("해당 아이디의 사용자가 존재하지 않습니다.");
+    	}
 
-        // 사용자의 포인트 정보 조회
-        PointVO pointVO = pointDao.selectOne(user_id);
-        System.out.println("PointVO: " + pointVO);
-
-        // 포인트 사용
-        int usedPoints = 500; // 차감할 포인트
-        result = pointDao.usePoints(user_id, usedPoints);
-        if (result > 0) {
-            System.out.println(usedPoints + " 포인트가 사용되었습니다.");
-        } else {
-            System.out.println("포인트 사용에 실패했습니다.");
-        }
-
-        // 사용자의 포인트 정보 다시 조회
-        pointVO = pointDao.selectOne(user_id);
-        System.out.println("PointVO after using: " + pointVO);
+    	sc.close();
     }
 }

@@ -123,7 +123,7 @@ public class UsersDAO {
 		int i = 1;
 		pstmt.setString(i++, vo.getUser_id());
 		pstmt.setString(i++, vo.getEmail());
-		pstmt.setString(i++, vo.getpassword());
+		pstmt.setString(i++, vo.getPassword());
 		pstmt.setString(i++, vo.getPhonenumber());
 		pstmt.setString(i++, vo.getBirthday());
 		pstmt.setString(i++, vo.getGender());
@@ -147,26 +147,28 @@ public class UsersDAO {
 			conn =  CommonJDBCUtil.getConnection();
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("UPDATE STUDENT ");
-			sb.append("   SET USER_ID = ? ");
-			sb.append("     , EMAIL = ? ");
+			sb.append("UPDATE USERS ");
+			sb.append("   SET EMAIL = ? ");
 			sb.append("     , PASSWORD = ? ");
 			sb.append("     , PHONENUMBER = ? ");
 			sb.append("     , BIRTHDAY = ? ");
 			sb.append("     , GENDER = ? ");
-			sb.append(" WHERE ID = ? ");
+			sb.append(" WHERE USER_ID = ? ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
 			int i = 1;
-			pstmt.setString(i++, vo.getUser_id());
 			pstmt.setString(i++, vo.getEmail());
-			pstmt.setString(i++, vo.getpassword());
+			pstmt.setString(i++, vo.getPassword());
 			pstmt.setString(i++, vo.getPhonenumber());
 			pstmt.setString(i++, vo.getBirthday());
 			pstmt.setString(i++, vo.getGender());
+			pstmt.setString(i++, vo.getUser_id());
 			
 			result = pstmt.executeUpdate();
+			
+			conn.commit();
+			
 		} catch (SQLException e) {
 			System.out.println("[예외발생] 작업중 예외가 발생 : " + e.getMessage());
 			result = -1;
@@ -183,7 +185,7 @@ public class UsersDAO {
 		try {
 			conn =  CommonJDBCUtil.getConnection();
 			
-			String sb = "DELETE FROM USERS WHERE ID = ? ";
+			String sb = "DELETE FROM USERS WHERE USER_ID = ? ";
 			pstmt = conn.prepareStatement(sb);
 			
 			pstmt.setString(1, user_id);

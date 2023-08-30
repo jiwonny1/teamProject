@@ -22,19 +22,19 @@ public class CommonJDBCUtil {
 		return null;
 	}
 	
-	public static void close(Connection conn, Statement stmt, 
+	public static void close(Connection conn, PreparedStatement pstmt, 
 			ResultSet rs) {
 		try {
 			if (rs != null) rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		close(conn, stmt);
+		close(conn, pstmt);
 	}
 	
-	public static void close(Connection conn, Statement stmt) {
+	public static void close(Connection conn, PreparedStatement pstmt) {
 		try {
-			if (stmt != null) stmt.close();
+			if (pstmt != null) pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

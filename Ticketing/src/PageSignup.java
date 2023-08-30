@@ -116,7 +116,7 @@ public class PageSignup {
                     System.out.print("비밀번호를 입력하세요: ");
                     String password = sc.nextLine();
 
-                    if (user.getpassword().equals(password)) {
+                    if (user.getPassword().equals(password)) {
                         System.out.println("로그인에 성공했습니다.");
                         break;
                     } else {
